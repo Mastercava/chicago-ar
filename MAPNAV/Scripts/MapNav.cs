@@ -21,7 +21,8 @@ public class MapNav : MonoBehaviour
 	public int minZoom = 1;										//Minimum zoom level available
 	public int zoom = 17;										//Current zoom level
 	private float multiplier; 									//1 for a size=640x640 tile, 2 for size=1280*1280 tile, etc. Automatically set when selecting tile size
-	public string key = "Fmjtd%7Cluur29072d%2Cbg%3Do5-908s00";  //AppKey (API key) code obtained from your maps provider (MapQuest, Google, etc.). 
+	public string key = "AIzaSyB_6z0XrSqzoM2npAgUJKijiYuJIf8_SyQ"; //"Fmjtd%7Cluur29072d%2Cbg%3Do5-908s00";  //AppKey (API key) code obtained from your maps provider (MapQuest, Google, etc.). 
+
 																//Default MapQuest key for demo purposes only (with limitations). Please get your own key before you start yout project.															 
 	public string[] maptype;									//Array including available map types
 	public int[] mapSize;										//Array including available map sizes(pixels)
@@ -127,9 +128,13 @@ public class MapNav : MonoBehaviour
 		
 		//Add possible values to maptype and mapsize arrays 
 		//ATENTTION: Modify if using a maps provider other than MapQuest Open Static Maps.
-		maptype = new string[]{"map", "sat", "hyb"};
-		mapSize = new int[]{640, 1280, 1920, 2560}; //in pixels
-		
+		//maptype = new string[]{"map", "sat", "hyb"};
+		//mapSize = new int[]{640, 1280, 1920, 2560}; //in pixels
+
+		//Add possible values to maptype and mapsize arrays (GOOGLE)
+		maptype = new string[]{"satellite","roadmap","hybrid","terrain"};
+		mapSize = new int[]{640}; //in pixels
+
 		//Set GUI "center" button label
 		if(triDView){
 			centre = "refresh";
@@ -463,13 +468,19 @@ public class MapNav : MonoBehaviour
 		//MAPQUEST=========================================================================================
 
 		//Build a valid MapQuest OpenMaps tile request for the current location
-		multiplier = mapSize[indexSize]/640.0f;  //Tile Size= 640*multiplier
+		//multiplier = mapSize[indexSize]/640.0f;  //Tile Size= 640*multiplier
 		//ATENTTION: If you want to implement maps from a different tiles provider, modify the following url accordingly to create a valid request
         //Example code can be found at http://recursivearts.com/mapnav/faq.html
 
-		url = "http://open.mapquestapi.com/staticmap/v4/getmap?key="+key+"&size="+mapSize[indexSize].ToString()+","+mapSize[indexSize].ToString()+"&zoom="+zoom+"&type="+maptype[index]+"&center="+fixLat+","+fixLon+"&scalebar=false";
-		tempLat = fixLat; 
+		//url = "http://open.mapquestapi.com/staticmap/v4/getmap?key="+key+"&size="+mapSize[indexSize].ToString()+","+mapSize[indexSize].ToString()+"&zoom="+zoom+"&type="+maptype[index]+"&center="+fixLat+","+fixLon+"&scalebar=false";
+
+		//GOOGLE ================================================================================
+		//Build a valid Google Maps tile request for the current location 
+		multiplier=1;
+		url= "http://maps.google.com/maps/api/staticmap?center="+fixLat+","+fixLon+"&zoom="+zoom+"&scale=2&size=640x640&format=jpg&maptype="+maptype[index]+"&sensor=false&key="+key;
+		tempLat = fixLat;
 		tempLon = fixLon;
+
 
 		//=================================================================================================
 
@@ -492,6 +503,7 @@ public class MapNav : MonoBehaviour
 		if(!mapDisabled){
 			// Start a download of the given URL
 			www = new WWW(url); 
+			Debug.Log (url);
 			// Wait for download to complete
 			download = (www.progress);
 			while(!www.isDone){
