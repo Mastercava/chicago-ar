@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="BritannicaAfternoon" size="93.500000 70.125000" />
+    <ImageTarget name="20160204_151140_HDR" size="93.500000 70.125000" />
+    <ImageTarget name="Marker_site2_North" size="6.000000 4.074000" />
+    <ImageTarget name="Marker_Site2_2_sign" size="0.500000 0.609960" />
+  </Tracking>
+</QCARConfig>
